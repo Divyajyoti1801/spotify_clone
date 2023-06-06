@@ -1,3 +1,4 @@
+import getSongByUserId from "@/actions/getSongsByUserId";
 import Sidebar from "@/components/Sidebar";
 import ModalProvider from "@/providers/ModelProvider";
 import SupabaseProvider from "@/providers/SupabaseProvider";
@@ -14,11 +15,14 @@ export const metadata = {
     "Spotify is a digital music service that gives you access to millions of songs.",
 };
 
-export default function RootLayout({
+export const revalidate = 0;
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const userSongs = await getSongByUserId();
   return (
     <html lang="en">
       <body className={font.className}>
@@ -26,7 +30,7 @@ export default function RootLayout({
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
-            <Sidebar>{children}</Sidebar>
+            <Sidebar songs={userSongs}>{children}</Sidebar>
           </UserProvider>
         </SupabaseProvider>
       </body>
