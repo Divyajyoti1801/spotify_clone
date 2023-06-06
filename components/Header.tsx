@@ -1,5 +1,8 @@
 "use client";
 
+import useAuthModal from "@/hooks/useAuthModal";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+
 import { useRouter } from "next/navigation";
 import { Fragment } from "react";
 import { BiSearch } from "react-icons/bi";
@@ -14,8 +17,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
-  const handleLogout = () => {
-    //handler Logout
+  const authModal = useAuthModal();
+  const supabaseClient = useSupabaseClient();
+  const handleLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
   };
   return (
     <div
@@ -51,14 +56,14 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           <Fragment>
             <div>
               <Button
-                onClick={() => {}}
+                onClick={authModal.onOpen}
                 className="bg-transparent text-neutral-300 font-medium"
               >
                 Sign Up
               </Button>
             </div>
             <div>
-              <Button onClick={() => {}} className="bg-white px-6 py-2">
+              <Button onClick={authModal.onOpen} className="bg-white px-6 py-2">
                 Log in
               </Button>
             </div>
