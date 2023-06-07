@@ -1,4 +1,5 @@
 import getSongByUserId from "@/actions/getSongsByUserId";
+import Player from "@/components/Player";
 import Sidebar from "@/components/Sidebar";
 import ModalProvider from "@/providers/ModelProvider";
 import SupabaseProvider from "@/providers/SupabaseProvider";
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <UserProvider>
             <ModalProvider />
             <Sidebar songs={userSongs}>{children}</Sidebar>
+            <Player />
           </UserProvider>
         </SupabaseProvider>
       </body>
