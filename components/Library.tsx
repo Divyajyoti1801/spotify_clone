@@ -1,6 +1,7 @@
 "use client";
 import useAuthModal from "@/hooks/useAuthModal";
 import useOnPlay from "@/hooks/useOnPlay";
+import useSubscribeModal from "@/hooks/useSubscribeModal";
 import useUploadModal from "@/hooks/useUploadModel";
 import { useUser } from "@/hooks/useUser";
 import { Song } from "@/types";
@@ -13,13 +14,18 @@ interface LibraryProps {
 }
 
 const Library: React.FC<LibraryProps> = ({ songs }) => {
+  const subscribeModal = useSubscribeModal();
   const authModal = useAuthModal();
   const uploadModel = useUploadModal();
-  const { user } = useUser();
+  const { user, subscription } = useUser();
   const onPlay = useOnPlay(songs);
   const onClick = () => {
     if (!user) {
       return authModal.onOpen();
+    }
+
+    if (!subscription) {
+      return subscribeModal.onOpen();
     }
 
     return uploadModel.onOpen();

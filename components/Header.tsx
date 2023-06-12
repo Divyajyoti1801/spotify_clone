@@ -1,6 +1,7 @@
 "use client";
 
 import useAuthModal from "@/hooks/useAuthModal";
+import usePlayer from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/navigation";
@@ -18,12 +19,14 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
+  const player = usePlayer();
   const router = useRouter();
   const authModal = useAuthModal();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
+    player.reset();
     router.refresh();
     if (error) {
       toast.error(error.message);
