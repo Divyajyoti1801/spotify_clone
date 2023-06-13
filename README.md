@@ -34,7 +34,7 @@ While building this Spotify clone project, you may encounter several challenges.
 
 ### Screenshot
 
-![](./screenshot.png)
+![](./screenshot.PNG)
 
 ### Links
 
